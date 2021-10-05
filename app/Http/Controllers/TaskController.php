@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Folder;
 use App\Models\Task;
 use App\Http\Requests\CreateTask;
+use App\Http\Requests\EditTask;
 
 class TaskController extends Controller
 {
@@ -53,6 +54,23 @@ class TaskController extends Controller
 
         return view('tasks.edit',[
             'task' => $task,
+        ]);
+    }
+
+    //タスクの編集処理
+    public function edit(int $id, int $task_id, EditTask $request){
+        //リクエストされた ID でタスクデータを取得（編集対象）
+        $task = Task::find($task_id);
+
+        //入力でーたの代入
+        $task->title = $request->title;
+        $task->status = $request->status;
+        $task->due_date = $request->due_date;
+        $task->save();
+
+        //リダイレクト
+        return redirect()->route('tasks.index', [
+            'id' => $task->folder_id,
         ]);
     }
 }
