@@ -46,4 +46,13 @@ class TaskController extends Controller
             'id' => $current_folder->id,
         ]);
     }
+
+    //タスク編集画面の表示
+    public function showEditForm(int $id,int $task_id){
+        $task = Task::find($task_id);
+
+        return view('tasks.edit',[
+            'task' => $task,
+        ]);
+    }
 }
